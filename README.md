@@ -30,147 +30,146 @@
   <img src="./assets/demo.gif" width="800">
 </div>
 
-# Dolphin: Document Image Parsing via Heterogeneous Anchor Prompting
+# Dolphin: 이종 앵커 프롬프트 기반 문서 이미지 파싱
 
-Dolphin (**Do**cument Image **P**arsing via **H**eterogeneous Anchor Prompt**in**g) is a novel multimodal document image parsing model following an analyze-then-parse paradigm. This repository contains the demo code and pre-trained models for Dolphin.
+Dolphin(**Do**cument Image **P**arsing via **H**eterogeneous Anchor Prompt**in**g)는 분석 후 파싱(analyze-then-parse) 패러다임을 따르는 새로운 멀티모달 문서 이미지 파싱 모델입니다. 이 저장소에는 Dolphin의 데모 코드와 사전 학습된 모델이 포함되어 있습니다.
 
-## 📑 Overview
+## 📑 개요
 
-Document image parsing is challenging due to its complexly intertwined elements such as text paragraphs, figures, formulas, and tables. Dolphin addresses these challenges through a two-stage approach:
+문서 이미지 파싱은 텍스트 단락, 그림, 수식, 표 등 복잡하게 얽힌 요소들로 인해 도전적인 과제입니다. Dolphin은 두 단계 접근법을 통해 이러한 문제를 해결합니다:
 
-1. **🔍 Stage 1**: Comprehensive page-level layout analysis by generating element sequence in natural reading order
-2. **🧩 Stage 2**: Efficient parallel parsing of document elements using heterogeneous anchors and task-specific prompts
+1. **🔍 1단계**: 자연스러운 읽기 순서로 요소 시퀀스를 생성하여 페이지 전체 레이아웃을 분석
+2. **🧩 2단계**: 이종 앵커와 작업별 프롬프트를 활용한 문서 요소의 효율적 병렬 파싱
 
 <div align="center">
   <img src="./assets/framework.png" width="680">
 </div>
 
-Dolphin achieves promising performance across diverse page-level and element-level parsing tasks while ensuring superior efficiency through its lightweight architecture and parallel parsing mechanism.
+Dolphin은 경량화된 아키텍처와 병렬 파싱 메커니즘을 통해 다양한 페이지 및 요소 수준의 파싱 작업에서 우수한 성능과 효율성을 보장합니다.
 
-## 🚀 Demo
-Try our demo on [Demo-Dolphin](http://115.190.42.15:8888/dolphin/).
+## 🚀 데모
+[Demo-Dolphin](http://115.190.42.15:8888/dolphin/)에서 데모를 체험해보세요.
 
-## 📅 Changelog
-- 🔥 **2025.06.13** Added multi-page PDF document parsing capability.
-- 🔥 **2025.05.21** Our demo is released at [link](http://115.190.42.15:8888/dolphin/). Check it out!
-- 🔥 **2025.05.20** The pretrained model and inference code of Dolphin are released.
-- 🔥 **2025.05.16** Our paper has been accepted by ACL 2025. Paper link: [arXiv](https://arxiv.org/abs/2505.14059).
+## 📅 변경 이력
+- 🔥 **2025.06.13** 다중 페이지 PDF 문서 파싱 기능 추가
+- 🔥 **2025.05.21** 데모 공개 [링크](http://115.190.42.15:8888/dolphin/)
+- 🔥 **2025.05.20** Dolphin의 사전학습 모델 및 추론 코드 공개
+- 🔥 **2025.05.16** 논문 ACL 2025 채택, 논문 링크: [arXiv](https://arxiv.org/abs/2505.14059)
 
-## 🛠️ Installation
+## 🛠️ 설치 방법
 
-1. Clone the repository:
+1. 저장소 클론:
    ```bash
    git clone https://github.com/ByteDance/Dolphin.git
    cd Dolphin
    ```
 
-2. Install the dependencies:
+2. 의존성 설치:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Download the pre-trained models using one of the following options:
+3. 사전학습 모델 다운로드 (아래 옵션 중 택1):
 
-   **Option A: Original Model Format (config-based)**
+   **옵션 A: 오리지널 모델 포맷(config 기반)**
    
-   Download from [Baidu Yun](https://pan.baidu.com/s/15zcARoX0CTOHKbW8bFZovQ?pwd=9rpx) or [Google Drive](https://drive.google.com/drive/folders/1PQJ3UutepXvunizZEw-uGaQ0BCzf-mie?usp=sharing) and put them in the `./checkpoints` folder.
+   [Baidu Yun](https://pan.baidu.com/s/15zcARoX0CTOHKbW8bFZovQ?pwd=9rpx) 또는 [Google Drive](https://drive.google.com/drive/folders/1PQJ3UutepXvunizZEw-uGaQ0BCzf-mie?usp=sharing)에서 다운로드 후 `./checkpoints` 폴더에 저장
 
-   **Option B: Hugging Face Model Format**
+   **옵션 B: Hugging Face 모델 포맷**
    
-   Visit our Huggingface [model card](https://huggingface.co/ByteDance/Dolphin), or download model by:
+   Huggingface [모델 카드](https://huggingface.co/ByteDance/Dolphin) 방문 또는 아래 명령어로 다운로드:
    
    ```bash
-   # Download the model from Hugging Face Hub
+   # Hugging Face Hub에서 모델 다운로드
    git lfs install
    git clone https://huggingface.co/ByteDance/Dolphin ./hf_model
-   # Or use the Hugging Face CLI
+   # 또는 Hugging Face CLI 사용
    huggingface-cli download ByteDance/Dolphin --local-dir ./hf_model
    ```
 
-## ⚡ Inference
+## ⚡ 추론 방법
 
-Dolphin provides two inference frameworks with support for two parsing granularities:
-- **Page-level Parsing**: Parse the entire document page into a structured JSON and Markdown format
-- **Element-level Parsing**: Parse individual document elements (text, table, formula)
+Dolphin은 두 가지 추론 프레임워크와 두 가지 파싱 단위를 지원합니다:
+- **페이지 단위 파싱**: 전체 문서 페이지를 구조화된 JSON 및 Markdown 형식으로 파싱
+- **요소 단위 파싱**: 개별 문서 요소(텍스트, 표, 수식) 파싱
 
-### 📄 Page-level Parsing
+### 📄 페이지 단위 파싱
 
-#### Using Original Framework (config-based)
+#### 오리지널 프레임워크(config 기반) 사용
 
 ```bash
-# Process a single document image
+# 단일 문서 이미지 처리
 python demo_page.py --config ./config/Dolphin.yaml --input_path ./demo/page_imgs/page_1.jpeg --save_dir ./results
 
-# Process a single document pdf
+# 단일 PDF 문서 처리
 python demo_page.py --config ./config/Dolphin.yaml --input_path ./demo/page_imgs/page_6.pdf --save_dir ./results
 
-# Process all documents in a directory
+# 디렉토리 내 모든 문서 처리
 python demo_page.py --config ./config/Dolphin.yaml --input_path ./demo/page_imgs --save_dir ./results
 
-# Process with custom batch size for parallel element decoding
+# 병렬 요소 디코딩을 위한 배치 크기 지정
 python demo_page.py --config ./config/Dolphin.yaml --input_path ./demo/page_imgs --save_dir ./results --max_batch_size 8
 ```
 
-#### Using Hugging Face Framework
+#### Hugging Face 프레임워크 사용
 
 ```bash
-# Process a single document image
+# 단일 문서 이미지 처리
 python demo_page_hf.py --model_path ./hf_model --input_path ./demo/page_imgs/page_1.jpeg --save_dir ./results
 
-# Process a single document pdf
+# 단일 PDF 문서 처리
 python demo_page_hf.py --model_path ./hf_model --input_path ./demo/page_imgs/page_6.pdf --save_dir ./results
 
-# Process all documents in a directory
+# 디렉토리 내 모든 문서 처리
 python demo_page_hf.py --model_path ./hf_model --input_path ./demo/page_imgs --save_dir ./results
 
-# Process with custom batch size for parallel element decoding
+# 병렬 요소 디코딩을 위한 배치 크기 지정
 python demo_page_hf.py --model_path ./hf_model --input_path ./demo/page_imgs --save_dir ./results --max_batch_size 16
 ```
 
-### 🧩 Element-level Parsing
+### 🧩 요소 단위 파싱
 
-#### Using Original Framework (config-based)
+#### 오리지널 프레임워크(config 기반) 사용
 
 ```bash
-# Process a single table image
+# 단일 표 이미지 처리
 python demo_element.py --config ./config/Dolphin.yaml --input_path ./demo/element_imgs/table_1.jpeg --element_type table
 
-# Process a single formula image
+# 단일 수식 이미지 처리
 python demo_element.py --config ./config/Dolphin.yaml --input_path ./demo/element_imgs/line_formula.jpeg --element_type formula
 
-# Process a single text paragraph image
+# 단일 텍스트 단락 이미지 처리
 python demo_element.py --config ./config/Dolphin.yaml --input_path ./demo/element_imgs/para_1.jpg --element_type text
 ```
 
-#### Using Hugging Face Framework
+#### Hugging Face 프레임워크 사용
 
 ```bash
-# Process a single table image
+# 단일 표 이미지 처리
 python demo_element_hf.py --model_path ./hf_model --input_path ./demo/element_imgs/table_1.jpeg --element_type table
 
-# Process a single formula image
+# 단일 수식 이미지 처리
 python demo_element_hf.py --model_path ./hf_model --input_path ./demo/element_imgs/line_formula.jpeg --element_type formula
 
-# Process a single text paragraph image
+# 단일 텍스트 단락 이미지 처리
 python demo_element_hf.py --model_path ./hf_model --input_path ./demo/element_imgs/para_1.jpg --element_type text
 ```
 
-## 🌟 Key Features
+## 🌟 주요 특징
 
-- 🔄 Two-stage analyze-then-parse approach based on a single VLM
-- 📊 Promising performance on document parsing tasks
-- 🔍 Natural reading order element sequence generation
-- 🧩 Heterogeneous anchor prompting for different document elements
-- ⏱️ Efficient parallel parsing mechanism
-- 🤗 Support for Hugging Face Transformers for easier integration
+- 🔄 단일 VLM 기반 2단계 분석-파싱 접근법
+- 📊 문서 파싱 작업에서 우수한 성능
+- 🔍 자연스러운 읽기 순서의 요소 시퀀스 생성
+- 🧩 다양한 문서 요소별 이종 앵커 프롬프트
+- ⏱️ 효율적인 병렬 파싱 메커니즘
+- 🤗 Hugging Face Transformers 지원으로 손쉬운 통합
 
+## 📮 공지사항
+**오작동 사례 제보:** 모델이 잘 동작하지 않는 사례가 있다면 issue에 공유해주시면 감사하겠습니다. 모델의 최적화와 개선을 위해 지속적으로 노력하고 있습니다.
 
-## 📮 Notice
-**Call for Bad Cases:** If you have encountered any cases where the model performs poorly, we would greatly appreciate it if you could share them in the issue. We are continuously working to optimize and improve the model.
+## 💖 감사의 말씀
 
-## 💖 Acknowledgement
-
-We would like to acknowledge the following open-source projects that provided inspiration and reference for this work:
+본 연구에 영감을 주고 참고가 된 다음 오픈소스 프로젝트에 감사드립니다:
 - [Donut](https://github.com/clovaai/donut/)
 - [Nougat](https://github.com/facebookresearch/nougat)
 - [GOT](https://github.com/Ucas-HaoranWei/GOT-OCR2.0)
@@ -178,9 +177,9 @@ We would like to acknowledge the following open-source projects that provided in
 - [Swin](https://github.com/microsoft/Swin-Transformer)
 - [Hugging Face Transformers](https://github.com/huggingface/transformers)
 
-## 📝 Citation
+## 📝 인용
 
-If you find this code useful for your research, please use the following BibTeX entry.
+이 코드가 연구에 도움이 되었다면 아래 BibTeX을 인용해 주세요.
 
 ```bibtex
 @article{feng2025dolphin,
